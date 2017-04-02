@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="be7384c7-eabf-49f8-8a8c-203ba610ce60" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/preprocess_and_extract.py" afterPath="$PROJECT_DIR$/preprocess_and_extract.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/nltk_test.py" afterPath="$PROJECT_DIR$/topic_modeling.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/co-training_linSVM.py" afterPath="$PROJECT_DIR$/co-training_linSVM.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,21 +19,23 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="nltk_test.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/nltk_test.py">
+      <file leaf-file-name="topic_modeling.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/topic_modeling.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="570">
+              <caret line="38" column="154" lean-forward="true" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="154" />
+              <folding>
+                <element signature="e#0#14#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="preprocess_and_extract.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="preprocess_and_extract.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/preprocess_and_extract.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="799">
-              <caret line="141" column="0" lean-forward="true" selection-start-line="141" selection-start-column="0" selection-end-line="141" selection-end-column="0" />
+            <state relative-caret-position="1725">
+              <caret line="115" column="62" lean-forward="true" selection-start-line="115" selection-start-column="62" selection-end-line="115" selection-end-column="62" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -42,9 +46,11 @@
       <file leaf-file-name="co-training_linSVM.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/co-training_linSVM.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="360">
+              <caret line="24" column="77" lean-forward="true" selection-start-line="24" selection-start-column="77" selection-end-line="24" selection-end-column="77" />
+              <folding>
+                <element signature="e#0#36#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -59,12 +65,14 @@
       <list>
         <option value="$PROJECT_DIR$/nltk_test.py" />
         <option value="$PROJECT_DIR$/preprocess_and_extract.py" />
+        <option value="$PROJECT_DIR$/co-training_linSVM.py" />
+        <option value="$PROJECT_DIR$/topic_modeling.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="252" />
-    <option name="y" value="44" />
+    <option name="x" value="388" />
+    <option name="y" value="289" />
     <option name="width" value="1400" />
     <option name="height" value="1000" />
   </component>
@@ -265,7 +273,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="252" y="44" width="1400" height="1000" extended-state="0" />
+    <frame x="388" y="289" width="1400" height="1000" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -295,28 +303,32 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/nltk_test.py">
+    <entry file="file://$PROJECT_DIR$/preprocess_and_extract.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="1725">
+          <caret line="115" column="62" lean-forward="true" selection-start-line="115" selection-start-column="62" selection-end-line="115" selection-end-column="62" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/co-training_linSVM.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="360">
+          <caret line="24" column="77" lean-forward="true" selection-start-line="24" selection-start-column="77" selection-end-line="24" selection-end-column="77" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/preprocess_and_extract.py">
+    <entry file="file://$PROJECT_DIR$/topic_modeling.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="799">
-          <caret line="141" column="0" lean-forward="true" selection-start-line="141" selection-start-column="0" selection-end-line="141" selection-end-column="0" />
+        <state relative-caret-position="570">
+          <caret line="38" column="154" lean-forward="true" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="154" />
           <folding>
-            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>
