@@ -4,6 +4,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.datasets import fetch_20newsgroups
 from sklearn.decomposition import NMF, LatentDirichletAllocation
 from nltk.tokenize import RegexpTokenizer
+import heapq
+import csv
 
 
 def display_topics(model, feature_names, no_top_words):
@@ -43,7 +45,11 @@ target_posts = {target: [' '.join(get(eval(key))['post']) for key in target_key_
 
 tokenizer = RegexpTokenizer(r'\w+')
 
+
+# USECASE 1 # EXPLORING NEW TOPICS
 for target in targets:
+    print()
+    print("GROUP: ", target)
     data = target_posts[target]
     data = [document.lower() for document in data]
     data = [' '.join(tokenizer.tokenize(document)) for document in data]
@@ -68,5 +74,49 @@ for target in targets:
                                     random_state=0).fit(tf)
 
     no_top_words = 10
-    display_topics(nmf, tfidf_feature_names, no_top_words)
-    display_topics(lda, tf_feature_names, no_top_words)
+    print('NMF: ')
+    #display_topics(nmf, tfidf_feature_names, no_top_words)
+    print('LDA: ')
+    #display_topics(lda, tf_feature_names, no_top_words)
+
+# USECASE 2 # FOLOWING TRENDS TROUGH TIME
+
+data = [target_posts[target] for target in targets]
+data = [item for sublist in data for item in sublist]
+data = [document.lower() for document in data]
+data = [' '.join(tokenizer.tokenize(document)) for document in data]
+
+# NMF is able to use tf-idf
+tfidf_vectorizer = TfidfVectorizer(max_df=0.95, min_df=2, stop_words='english')
+tfidf = tfidf_vectorizer.fit_transform(data)
+tfidf_feature_names = tfidf_vectorizer.get_feature_names()
+
+# LDA can only use raw term counts for LDA because it is a probabilistic graphical model
+tf_vectorizer = CountVectorizer(max_df=0.95, min_df=2, stop_words='english')
+tf = tf_vectorizer.fit_transform(data)
+tf_feature_names = tf_vectorizer.get_feature_names()
+
+no_topics = 10
+
+# Run LDA
+lda_transformed = LatentDirichletAllocation(n_topics=no_topics, max_iter=5, learning_method='online', learning_offset=50.,random_state=0).fit_transform(tf)
+lda = LatentDirichletAllocation(n_topics=no_topics, max_iter=5, learning_method='online', learning_offset=50.,random_state=0).fit(tf)
+
+all_results = [heapq.nlargest(1, range(len(example)), key=example.__getitem__)[0] for example in lda_transformed]
+month_sizes = [len(target_posts[target]) for target in targets]
+month1 = [0, month_sizes[0] - 1]
+month2 = [month_sizes[0], month_sizes[0] + month_sizes[1] - 1]
+month3 = [month_sizes[0] + month_sizes[1], month_sizes[0] + month_sizes[1] + month_sizes[2] - 1]
+month_limits = {targets[0]: month1, targets[1]: month2, targets[2]: month3}
+month_results = {target: [result for idx, result in enumerate(all_results) if idx >= month_limits[target][0] and idx <= month_limits[target][1]] for target in targets}
+month_results_counts = {target: Counter(month_results[target]) for target in month_results.keys()}
+topics = {topic_idx: " ".join([tf_feature_names[i] for i in topic.argsort()[:-no_top_words - 1:-1]]) for topic_idx, topic in enumerate(lda.components_)}
+
+with open('results.csv', 'w') as csvfile:
+    reswriter = csv.writer(csvfile, delimiter=',',
+                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
+    reswriter.writerow(['target', 'topic', 'count'])
+    for target in targets:
+        for topic_idx, freq in month_results_counts[target].most_common():
+            reswriter.writerow([target, topics[topic_idx], freq])
+
