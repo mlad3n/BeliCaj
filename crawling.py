@@ -25,8 +25,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 title_urls = set()
-state = "Extracting Links"
-countdown = 2
+depth = 10
 
 
 def lenient_host(host):
@@ -89,6 +88,7 @@ class Crawler:
             self.add_url(root)
         self.t0 = time.time()
         self.t1 = None
+        dataaccess.clean_db()
 
     def close(self):
         """Close resources."""
@@ -138,9 +138,8 @@ class Crawler:
         self.done.append(fetch_statistic)
 
     @asyncio.coroutine
-    def parse_links(self, response):
+    def parse_links(self, response, state):
         global title_urls
-        global countdown
         """Return a FetchStatistic and list of links."""
         links = set()
         content_type = None
@@ -160,7 +159,7 @@ class Crawler:
 
                 soup = BeautifulSoup(text, "lxml")
 
-                if countdown != 0:
+                if state != "Post":
                     siteLinks = soup.find("div", {"id": "siteTable", "class": "sitetable linklisting"})
                     urls = set(siteLinks.find_all('a', {"class": "title may-blank ", "data-event-action": "title"}, href=True))
 
@@ -178,13 +177,12 @@ class Crawler:
 
                     urls = set([next_link])
 
-                    countdown = countdown - 1
-
-                    if countdown == 0:
+                    if state == "End crawl":
                         urls = title_urls
+                        title_urls = set()
 
                     for url in urls:
-                        if countdown != 0:
+                        if state == "Continue crawl":
                             normalized = urllib.parse.urljoin(str(response.url), str(url))
                         else:
                             normalized = url
@@ -227,6 +225,7 @@ class Crawler:
     @asyncio.coroutine
     def fetch(self, url, max_redirect):
         """Fetch one URL."""
+        global depth
         tries = 0
         exception = None
         while tries < self.max_tries:
@@ -281,7 +280,13 @@ class Crawler:
                     LOGGER.error('redirect limit reached for %r from %r',
                                  next_url, url)
             else:
-                stat, links = yield from self.parse_links(response)
+                if (not 'count' in response.url.query) and str(response.url) not in self.roots:
+                    stat, links = yield from self.parse_links(response, "Post")
+                elif 'count' in response.url.query and int(response.url.query['count']) > depth * 50:
+                    stat, links = yield from self.parse_links(response, "End crawl")
+                else:
+                    stat, links = yield from self.parse_links(response, "Continue crawl")
+
                 self.record_statistic(stat)
                 for link in links.difference(self.seen_urls):
                     self.q.put_nowait((link, self.max_redirect))

@@ -8,13 +8,22 @@ def parse_links(soup):
         author = author.find("a", {"class": "author"}).text
     except Exception as e:
         author = "None"
+        pass
 
-    date = soup.find("div", {"class": "date"})
-    date = date.find("time").text
+    try:
+        date = soup.find("div", {"class": "date"})
+        date = date.find("time").text
+    except:
+        date = "Unknown date"
+        pass
 
     score = soup.find("div", {"class": "score"})
-    score = score.find("span", {"class": "number"}).text
-    # print(score)
+
+    try:
+        score = score.find("span", {"class": "number"}).text
+    except:
+        score = 0
+        pass
 
     i = 0
     post = []
